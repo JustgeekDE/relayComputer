@@ -2,16 +2,13 @@
 
 
 * Relay 1
-Sr1Open intA +12V bit1 GND SW_OPEN on
-Sr1Closed +12V intB bit1 GND SW_CLOSED on
+xRelay1 intA +12V intB bit1 GND basicRelay
 
 * Relay 2
-Sr2Open intB result bit2 GND SW_OPEN on
-Sr2Closed result intA bit2 GND SW_CLOSED on
+xRelay2 intB result intA bit2 GND basicRelay
 
 * Relay 3
-Sr3Open overflow intA bit2 GND SW_OPEN on
-Sr3Closed intA ignoreA bit2 GND SW_CLOSED on
+xRelay3 overflow intA ignore bit2 GND basicRelay
 
 * Some pulldowns, to make sure nothing is floating
 R1 bit1 GND 100k
@@ -22,7 +19,24 @@ R4 overflow GND 1k
 
 Vs +12v GND dc 12V ac 0V
 
+*//////////////////////////////////////////////////////////
+* Basic Relay using to voltage controlled switches
+*//////////////////////////////////////////////////////////
+*
+* connections:      Normally open terminal
+*                   |   Center terminal
+*                   |   |   normally closed terminal
+*                   |   |   |   positive supply
+*                   |   |   |   |   negative supply
+*                   |   |   |   |   |
+*                   |   |   |   |   |
+.subckt basicRelay  1   2   3   4   5
+
+SOpen 1 2 4 5 SW_OPEN on
+SClosed 2 3 4 5 SW_CLOSED on
+
 .model SW_OPEN SW(Ron=.1 Roff=1Meg Vt=6 )
 .model SW_CLOSED SW(Ron=1Meg Roff=.1 Vt=6 )
+.ends
 
 .end
