@@ -1,0 +1,28 @@
+*Sheet Name:/
+
+
+* Relay 1
+Sr1Open intA +12V bit1 GND SW_OPEN on
+Sr1Closed +12V intB bit1 GND SW_CLOSED on
+
+* Relay 2
+Sr2Open intB result bit2 GND SW_OPEN on
+Sr2Closed result intA bit2 GND SW_CLOSED on
+
+* Relay 3
+Sr3Open overflow intA bit2 GND SW_OPEN on
+Sr3Closed intA ignoreA bit2 GND SW_CLOSED on
+
+* Some pulldowns, to make sure nothing is floating
+R1 bit1 GND 100k
+R2 bit2 GND 100k
+
+R3 result GND 1k
+R4 overflow GND 1k
+
+Vs +12v GND dc 12V ac 0V
+
+.model SW_OPEN SW(Ron=.1 Roff=1Meg Vt=6 )
+.model SW_CLOSED SW(Ron=1Meg Roff=.1 Vt=6 )
+
+.end
