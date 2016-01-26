@@ -6,16 +6,18 @@ import os, sys
 sys.path.insert(0, os.getcwd())
 
 from scoville.circuit import Circuit
-from scoville.signal import SignalWithResistance, DelayedSignal
+from scoville.signal import SignalWithResistance
+from scoville.eagleSchematic import EagleSchematic
 
 class SimulationUnitTest(TestCase):
 
   def getCircuit(self):
-    relaySource = resource_string('simulations', 'halfAdder.cir').decode('utf-8')
-    circuit = Circuit(relaySource)
+    schematicSource = resource_string('simulations', 'halfAdder.sch')
+    schematic = EagleSchematic(schematicSource)
+    circuit = Circuit(schematic.getSpiceData())
 
-    circuit.inspectVoltage('overflow')
-    circuit.inspectVoltage('result')
+    circuit.inspectVoltage('OVERFLOW')
+    circuit.inspectVoltage('RESULT')
     return circuit
 
   def testLowLowShouldResultInLowLow(self):
@@ -25,8 +27,8 @@ class SimulationUnitTest(TestCase):
     circuit.setSignal(SignalWithResistance("bit2", 0.0, 10))
 
     circuit.run()
-    self.assertLess(circuit.getVoltage('overflow'), 0.5)
-    self.assertLess(circuit.getVoltage('result'), 0.5)
+    self.assertLess(circuit.getVoltage('OVERFLOW'), 0.5)
+    self.assertLess(circuit.getVoltage('RESULT'), 0.5)
 
   def testLowHighShouldResultInLowHigh(self):
     circuit = self.getCircuit()
@@ -35,8 +37,8 @@ class SimulationUnitTest(TestCase):
     circuit.setSignal(SignalWithResistance("bit2", 12.0, 10))
 
     circuit.run()
-    self.assertLess(circuit.getVoltage('overflow'), 0.5)
-    self.assertGreater(circuit.getVoltage('result'), 6.0)
+    self.assertLess(circuit.getVoltage('OVERFLOW'), 0.5)
+    self.assertGreater(circuit.getVoltage('RESULT'), 6.0)
 
   def testHighLowShouldResultInLowHigh(self):
     circuit = self.getCircuit()
@@ -45,8 +47,8 @@ class SimulationUnitTest(TestCase):
     circuit.setSignal(SignalWithResistance("bit2", 0.0, 10))
 
     circuit.run()
-    self.assertLess(circuit.getVoltage('overflow'), 0.5)
-    self.assertGreater(circuit.getVoltage('result'), 6.0)
+    self.assertLess(circuit.getVoltage('OVERFLOW'), 0.5)
+    self.assertGreater(circuit.getVoltage('RESULT'), 6.0)
 
   def testHighHighShouldResultInHighLow(self):
     circuit = self.getCircuit()
@@ -55,5 +57,5 @@ class SimulationUnitTest(TestCase):
     circuit.setSignal(SignalWithResistance("bit2", 12.0, 10))
 
     circuit.run()
-    self.assertGreater(circuit.getVoltage('overflow'), 6.0)
-    self.assertLess(circuit.getVoltage('result'), 0.5)
+    self.assertGreater(circuit.getVoltage('OVERFLOW'), 6.0)
+    self.assertLess(circuit.getVoltage('RESULT'), 0.5)
