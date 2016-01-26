@@ -1,5 +1,6 @@
 scoville
 .idea
+*.pyc
 
 # Ignore list for Eagle, a PCB layout tool
 
