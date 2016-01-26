@@ -10,13 +10,6 @@ xRelay2 intB result intA bit2 GND basicRelay
 * Relay 3
 xRelay3 overflow intA ignore bit2 GND basicRelay
 
-* Some pulldowns, to make sure nothing is floating
-R1 bit1 GND 100k
-R2 bit2 GND 100k
-
-R3 result GND 1k
-R4 overflow GND 1k
-
 Vs +12v GND dc 12V ac 0V
 
 *//////////////////////////////////////////////////////////
@@ -34,6 +27,13 @@ Vs +12v GND dc 12V ac 0V
 
 SOpen 1 2 4 5 SW_OPEN on
 SClosed 2 3 4 5 SW_CLOSED on
+
+* Some pulldowns, to make sure nothing is floating
+R1 1 GND 10k
+R2 2 GND 10k
+R3 3 GND 10k
+R4 4 GND 10k
+R5 5 GND 10k
 
 .model SW_OPEN SW(Ron=.1 Roff=1Meg Vt=6 )
 .model SW_CLOSED SW(Ron=1Meg Roff=.1 Vt=6 )

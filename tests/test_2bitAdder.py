@@ -34,7 +34,7 @@ class SimulationUnitTest(TestCase):
     self.assertLess(circuit.getVoltage('R1'), 0.5)
     self.assertLess(circuit.getVoltage('OVERFLOW'), 0.5)
 
-  def ignored_testTwoPlusThreeIsFive(self):
+  def testTwoPlusThreeIsFive(self):
     circuit = self.getCircuit()
 
     circuit.setSignal(SignalWithResistance("A0", 0.0, 10))
